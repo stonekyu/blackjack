@@ -28,11 +28,11 @@ namespace C_과제
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            string imagePath = @"C:\Users\user\Desktop\황석규신기륜\hwang_shin_make.png";
+            string imagePath = @"D:\HSK\C#과제\Image\deck_image.png";
             deck_pb.SizeMode = PictureBoxSizeMode.Zoom;
             deck_pb.Image = Image.FromFile(imagePath);
 
-            string backgroundImagePath = @"C:\Users\user\Desktop\황석규신기륜\made.jpg";
+            string backgroundImagePath = @"D:\HSK\C#과제\Image\BackGround.jpg";
             this.BackgroundImage = Image.FromFile(backgroundImagePath);
             this.BackgroundImageLayout = ImageLayout.Stretch; // 배경 이미지가 폼에 맞게 늘어나도록 설정
 
@@ -54,7 +54,7 @@ namespace C_과제
                 deck.Cards.RemoveAt(0);
                 player.Hand.Add(card);
 
-                LoadImage(player_pb3, $"C:\\Users\\user\\Desktop\\카드\\{card.Suit.Trim()}{card.Rank}.jpg");
+                LoadImage(player_pb3, $"D:\\HSK\\C#과제\\Card\\{ card.Suit.Trim()}{card.Rank}.jpg");
 
                 UpdatePoints();
             }
@@ -66,7 +66,7 @@ namespace C_과제
                     deck.Cards.RemoveAt(0);
                     dealer.Hand.Add(card);
 
-                    LoadImage(deal_pb3, $"C:\\Users\\user\\Desktop\\카드\\{card.Suit.Trim()}{card.Rank}.jpg");
+                    LoadImage(deal_pb3, $"D:\\HSK\\C#과제\\Card\\{card.Suit.Trim()}{card.Rank}.jpg");
 
                     UpdatePoints();
                 }
@@ -86,7 +86,7 @@ namespace C_과제
                     deck.Cards.RemoveAt(0);
                     dealer.Hand.Add(card);
 
-                    LoadImage(deal_pb3, $"C:\\Users\\user\\Desktop\\카드\\{card.Suit.Trim()}{card.Rank}.jpg");
+                    LoadImage(deal_pb3, $"D:\\HSK\\C#과제\\Card\\{card.Suit.Trim()}{card.Rank}.jpg");
 
                     UpdatePoints();
                 }
@@ -108,7 +108,7 @@ namespace C_과제
                 deck.Cards.RemoveAt(0);
                 player.Hand.Add(card1);
 
-                LoadImage(player_pb1, $"C:\\Users\\user\\Desktop\\카드\\{card1.Suit.Trim()}{card1.Rank}.jpg");
+                LoadImage(player_pb1, $"D:\\HSK\\C#과제\\Card\\{card1.Suit.Trim()}{card1.Rank}.jpg");
 
                 UpdatePoints();
 
@@ -118,7 +118,7 @@ namespace C_과제
                     deck.Cards.RemoveAt(0);
                     player.Hand.Add(card2);
 
-                    LoadImage(player_pb2, $"C:\\Users\\user\\Desktop\\카드\\{card2.Suit.Trim()}{card2.Rank}.jpg");
+                    LoadImage(player_pb2, $"D:\\HSK\\C#과제\\Card\\{card2.Suit.Trim()}{card2.Rank}.jpg");
 
                     UpdatePoints();
                 }
@@ -130,7 +130,7 @@ namespace C_과제
                 deck.Cards.RemoveAt(0);
                 dealer.Hand.Add(card3);
 
-                LoadImage(deal_pb1, $"C:\\Users\\user\\Desktop\\카드\\{card3.Suit.Trim()}{card3.Rank}.jpg");
+                LoadImage(deal_pb1, $"D:\\HSK\\C#과제\\Card\\{card3.Suit.Trim()}{card3.Rank}.jpg");
 
                 UpdatePoints();
 
@@ -140,7 +140,7 @@ namespace C_과제
                     deck.Cards.RemoveAt(0);
                     dealer.Hand.Add(card4);
 
-                    LoadImage(deal_pb2, $"C:\\Users\\user\\Desktop\\카드\\{card4.Suit.Trim()}{card4.Rank}.jpg");
+                    LoadImage(deal_pb2, $"D:\\HSK\\C#과제\\Card\\{card4.Suit.Trim()}{card4.Rank}.jpg");
 
                     UpdatePoints();
                 }
