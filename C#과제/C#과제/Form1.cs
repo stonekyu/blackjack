@@ -12,41 +12,61 @@ namespace C_과제
 {
     public partial class Form1 : Form
     {
-        Deck deck; // 카드 덱
-        Player player; // 플레이어
-        Dealer dealer; // 딜러
+        Deck deck;
+        Player player;
+        Dealer dealer;
 
         public Form1()
         {
             InitializeComponent();
-            deck = new Deck(); // 카드 덱 생성
-            player = new Player(100); // 플레이어 생성, 시작 금액은 100
-            dealer = new Dealer(); // 딜러 생성
-
-            moneyLabel.Text = "100"; // moneyLabel에 100 할당
+            deck = new Deck();
+            player = new Player(100);
+            dealer = new Dealer();
+            moneyLabel.Text = "100";
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            string imagePath = @"D:\HSK\C#과제\Image\deck_image.png";
+            string imagePath = @"D:\Git\blackjack\C#과제\Image\deck_image.png";
             deck_pb.SizeMode = PictureBoxSizeMode.Zoom;
             deck_pb.Image = Image.FromFile(imagePath);
 
-            string backgroundImagePath = @"D:\HSK\C#과제\Image\BackGround.jpg";
+            string backgroundImagePath = @"D:\Git\blackjack\C#과제\Image\BackGround.jpg";
             this.BackgroundImage = Image.FromFile(backgroundImagePath);
-            this.BackgroundImageLayout = ImageLayout.Stretch; // 배경 이미지가 폼에 맞게 늘어나도록 설정
+            this.BackgroundImageLayout = ImageLayout.Stretch;
 
+            MakePictureBoxTransparent(player_pb1);
+            MakePictureBoxTransparent(player_pb2);
+            MakePictureBoxTransparent(player_pb3);
+            MakePictureBoxTransparent(deal_pb1);
+            MakePictureBoxTransparent(deal_pb2);
+            MakePictureBoxTransparent(deal_pb3);
+        }
+
+        private void MakePictureBoxTransparent(PictureBox pb)
+        {
+            pb.BackColor = Color.Transparent;
+            pb.SizeMode = PictureBoxSizeMode.Zoom;
+            pb.Visible = false;
         }
 
         private void LoadImage(PictureBox pictureBox, string path)
         {
-            Image oldImage = pictureBox.Image;
-            pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox.Image = Image.FromFile(path);
-            oldImage?.Dispose();
+            if (System.IO.File.Exists(path))
+            {
+                Image oldImage = pictureBox.Image;
+                pictureBox.Image = Image.FromFile(path);
+                pictureBox.Visible = true;
+                oldImage?.Dispose();
+            }
+            else
+            {
+                pictureBox.Image = null;
+                pictureBox.Visible = false;
+            }
         }
 
-        private void hit_btn_Click(object sender, EventArgs e) // HIT
+        private void hit_btn_Click(object sender, EventArgs e)
         {
             if (deck.Cards.Count > 0)
             {
@@ -54,8 +74,7 @@ namespace C_과제
                 deck.Cards.RemoveAt(0);
                 player.Hand.Add(card);
 
-                LoadImage(player_pb3, $"D:\\HSK\\C#과제\\Card\\{ card.Suit.Trim()}{card.Rank}.jpg");
-
+                LoadImage(player_pb3, $"D:\\Git\\blackjack\\C#과제\\Card\\{card.Rank.Trim()}{card.Suit}.png");
                 UpdatePoints();
             }
             if (dealer.CalculateTotal() <= 16 && dealer.Hand.Count < 3)
@@ -66,17 +85,15 @@ namespace C_과제
                     deck.Cards.RemoveAt(0);
                     dealer.Hand.Add(card);
 
-                    LoadImage(deal_pb3, $"D:\\HSK\\C#과제\\Card\\{card.Suit.Trim()}{card.Rank}.jpg");
-
+                    LoadImage(deal_pb3, $"D:\\Git\\blackjack\\C#과제\\Card\\{card.Rank.Trim()}{card.Suit}.png");
                     UpdatePoints();
                 }
             }
             ComparePoints();
-
-            betLabel.Text = ""; // betLabel을 빈 값으로 설정
+            betLabel.Text = "";
         }
 
-        private void stay_btn_Click(object sender, EventArgs e) // STAY
+        private void stay_btn_Click(object sender, EventArgs e)
         {
             if (dealer.CalculateTotal() <= 16 && dealer.Hand.Count < 3)
             {
@@ -86,21 +103,19 @@ namespace C_과제
                     deck.Cards.RemoveAt(0);
                     dealer.Hand.Add(card);
 
-                    LoadImage(deal_pb3, $"D:\\HSK\\C#과제\\Card\\{card.Suit.Trim()}{card.Rank}.jpg");
-
+                    LoadImage(deal_pb3, $"D:\\Git\\blackjack\\C#과제\\Card\\{card.Rank.Trim()}{card.Suit}.png");
                     UpdatePoints();
                 }
             }
             ComparePoints();
-
-            betLabel.Text = ""; // betLabel을 빈 값으로 설정
+            betLabel.Text = "";
         }
 
-        private void button3_Click(object sender, EventArgs e) // DRAW
+        private void button3_Click(object sender, EventArgs e)
         {
             condition.Text = "";
-            player.Hand.Clear(); // 플레이어의 Hand 초기화
-            dealer.Hand.Clear(); // 딜러의 Hand 초기화
+            player.Hand.Clear();
+            dealer.Hand.Clear();
 
             if (deck.Cards.Count > 0)
             {
@@ -108,8 +123,7 @@ namespace C_과제
                 deck.Cards.RemoveAt(0);
                 player.Hand.Add(card1);
 
-                LoadImage(player_pb1, $"D:\\HSK\\C#과제\\Card\\{card1.Suit.Trim()}{card1.Rank}.jpg");
-
+                LoadImage(player_pb1, $"D:\\Git\\blackjack\\C#과제\\Card\\{card1.Rank.Trim()}{card1.Suit}.png");
                 UpdatePoints();
 
                 if (deck.Cards.Count > 0)
@@ -118,8 +132,7 @@ namespace C_과제
                     deck.Cards.RemoveAt(0);
                     player.Hand.Add(card2);
 
-                    LoadImage(player_pb2, $"D:\\HSK\\C#과제\\Card\\{card2.Suit.Trim()}{card2.Rank}.jpg");
-
+                    LoadImage(player_pb2, $"D:\\Git\\blackjack\\C#과제\\Card\\{card2.Rank.Trim()}{card2.Suit}.png");
                     UpdatePoints();
                 }
             }
@@ -130,8 +143,7 @@ namespace C_과제
                 deck.Cards.RemoveAt(0);
                 dealer.Hand.Add(card3);
 
-                LoadImage(deal_pb1, $"D:\\HSK\\C#과제\\Card\\{card3.Suit.Trim()}{card3.Rank}.jpg");
-
+                LoadImage(deal_pb1, $"D:\\Git\\blackjack\\C#과제\\Card\\{card3.Rank.Trim()}{card3.Suit}.png");
                 UpdatePoints();
 
                 if (deck.Cards.Count > 0)
@@ -140,8 +152,7 @@ namespace C_과제
                     deck.Cards.RemoveAt(0);
                     dealer.Hand.Add(card4);
 
-                    LoadImage(deal_pb2, $"D:\\HSK\\C#과제\\Card\\{card4.Suit.Trim()}{card4.Rank}.jpg");
-
+                    LoadImage(deal_pb2, $"D:\\Git\\blackjack\\C#과제\\Card\\{card4.Rank.Trim()}{card4.Suit}.png");
                     UpdatePoints();
                 }
             }
@@ -149,18 +160,15 @@ namespace C_과제
 
         private void bet_btn_Click(object sender, EventArgs e)
         {
-            int betAmount = int.Parse(betTextBox.Text); // betTextBox의 값을 정수로 변환
-            int currentMoney = int.Parse(moneyLabel.Text); // moneyLabel의 값을 정수로 변환
-
-            currentMoney -= betAmount; // 배팅금액을 현재 돈에서 빼기
-
-            moneyLabel.Text = currentMoney.ToString(); // 빼준 값을 다시 moneyLabel에 할당
-            betLabel.Text = betTextBox.Text; // betTextBox의 값을 betLabel에 할당
-
-            betTextBox.Text = ""; // betTextBox를 빈 값으로 설정
+            int betAmount = int.Parse(betTextBox.Text);
+            int currentMoney = int.Parse(moneyLabel.Text);
+            currentMoney -= betAmount;
+            moneyLabel.Text = currentMoney.ToString();
+            betLabel.Text = betTextBox.Text;
+            betTextBox.Text = "";
         }
 
-        private void button1_Click(object sender, EventArgs e) // PLAY
+        private void button1_Click(object sender, EventArgs e)
         {
             condition.Text = "";
             deck = null;
@@ -169,12 +177,14 @@ namespace C_과제
             deck = new Deck();
             player = new Player(100);
             dealer = new Dealer();
-            player_pb1.Image = null;
-            player_pb2.Image = null;
-            player_pb3.Image = null;
-            deal_pb1.Image = null;
-            deal_pb2.Image = null;
-            deal_pb3.Image = null;
+
+            player_pb1.Image = null; player_pb1.Visible = false;
+            player_pb2.Image = null; player_pb2.Visible = false;
+            player_pb3.Image = null; player_pb3.Visible = false;
+            deal_pb1.Image = null; deal_pb1.Visible = false;
+            deal_pb2.Image = null; deal_pb2.Visible = false;
+            deal_pb3.Image = null; deal_pb3.Visible = false;
+
             UpdatePoints();
         }
 
@@ -182,7 +192,6 @@ namespace C_과제
         {
             int playerTotal = player.Hand.Sum(card => card.Value);
             int dealerTotal = dealer.Hand.Sum(card => card.Value);
-
             player_point.Text = playerTotal.ToString();
             deal_point.Text = dealerTotal.ToString();
         }
@@ -194,13 +203,9 @@ namespace C_과제
             int currentMoney = int.Parse(moneyLabel.Text);
 
             if (playerTotal > 21 && dealerTotal > 21)
-            {
                 condition.Text = "딜러와 플레이어가 버스트 되었습니다. 무승부";
-            }
             else if (playerTotal > 21)
-            {
                 condition.Text = "플레이어가 버스트되었습니다. 딜러 승리";
-            }
             else if (dealerTotal > 21)
             {
                 condition.Text = "딜러가 버스트되었습니다. 플레이어 승리";
@@ -227,46 +232,33 @@ namespace C_과제
                 }
             }
 
-            // 플레이어의 점수가 0 이하가 될 때 메시지 박스 표시
             if (currentMoney <= 0)
-            {
                 MessageBox.Show("플레이어가 점수를 다 잃었습니다.");
-            }
         }
 
         private void re_btn_Click(object sender, EventArgs e)
         {
-            moneyLabel.Text = "100"; // moneyLabel을 100으로 설정
-            betLabel.Text = ""; // betLabel을 빈 값으로 설정
-            betTextBox.Text = ""; // betTextBox를 빈 값으로 설정
+            moneyLabel.Text = "100";
+            betLabel.Text = "";
+            betTextBox.Text = "";
 
-            // 모든 PictureBox를 빈 값으로 설정
-            player_pb1.Image = null;
-            player_pb2.Image = null;
-            player_pb3.Image = null;
-            deal_pb1.Image = null;
-            deal_pb2.Image = null;
-            deal_pb3.Image = null;
+            player_pb1.Image = null; player_pb1.Visible = false;
+            player_pb2.Image = null; player_pb2.Visible = false;
+            player_pb3.Image = null; player_pb3.Visible = false;
+            deal_pb1.Image = null; deal_pb1.Visible = false;
+            deal_pb2.Image = null; deal_pb2.Visible = false;
+            deal_pb3.Image = null; deal_pb3.Visible = false;
 
-            // 딜러와 플레이어의 점수를 초기화
             player.Hand.Clear();
             dealer.Hand.Clear();
             player_point.Text = "";
             deal_point.Text = "";
-
-            // condition을 빈 값으로 설정
             condition.Text = "";
         }
 
-        private void deal_point_Click(object sender, EventArgs e)
-        {
-
-        }
+        private void deal_point_Click(object sender, EventArgs e) { }
     }
-}
 
-namespace C_과제
-{
     public class Card
     {
         public string Suit { get; set; }
@@ -288,8 +280,7 @@ namespace C_과제
         public Deck()
         {
             Cards = new List<Card>();
-
-            string[] suits = { "하트", "다이아몬드", "클로버", "스페이드" };
+            string[] suits = { "H", "D", "C", "S" };
             string[] ranks = { "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K" };
             int[] values = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10 };
 
@@ -301,7 +292,6 @@ namespace C_과제
                     Cards.Add(card);
                 }
             }
-
             Shuffle();
         }
 
@@ -315,30 +305,13 @@ namespace C_과제
     public class Player
     {
         public List<Card> Hand { get; set; }
-
-        public Player(int startingMoney)
-        {
-            Hand = new List<Card>();
-        }
+        public Player(int startingMoney) { Hand = new List<Card>(); }
     }
 
     public class Dealer
     {
         public List<Card> Hand { get; set; }
-
-        public Dealer()
-        {
-            Hand = new List<Card>();
-        }
-
-        public int CalculateTotal()
-        {
-            int total = 0;
-            foreach (Card card in Hand)
-            {
-                total += card.Value;
-            }
-            return total;
-        }
+        public Dealer() { Hand = new List<Card>(); }
+        public int CalculateTotal() => Hand.Sum(card => card.Value);
     }
 }
